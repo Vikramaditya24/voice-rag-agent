@@ -55,23 +55,23 @@ export default function App() {
 
       <main className={`center-panel ${live ? "live" : ""}`}>
         {error && (
-  <div style={{
-    position: "absolute",
-    top: 20,
-    left: "50%",
-    transform: "translateX(-50%)",
-    background: "#1a1a1a",
-    border: "1px solid #333",
-    borderRadius: 4,
-    padding: "8px 16px",
-    fontSize: 12,
-    color: "#999",
-    whiteSpace: "nowrap",
-    zIndex: 10,
-  }}>
-    {error}
-  </div>
-)}
+          <div style={{
+            position: "absolute",
+            top: 20,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#1a1a1a",
+            border: "1px solid #333",
+            borderRadius: 4,
+            padding: "8px 16px",
+            fontSize: 12,
+            color: "#999",
+            whiteSpace: "nowrap",
+            zIndex: 10,
+          }}>
+            {error}
+          </div>
+        )}
         <CallControls
           token={token}
           serverUrl={serverUrl}
