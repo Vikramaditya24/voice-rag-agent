@@ -6,9 +6,7 @@ export default function PromptEditor() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/config").then((res) => {
-      setPrompt(res.data.system_prompt);
-    });
+    axios.get("http://localhost:8000/config").then((r) => setPrompt(r.data.system_prompt));
   }, []);
 
   const save = async () => {
@@ -18,17 +16,18 @@ export default function PromptEditor() {
   };
 
   return (
-    <div>
-      <h2>System Prompt</h2>
+    <>
+      <div className="panel-title">System Prompt</div>
       <textarea
+        className="prompt-textarea"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        rows={8}
-        placeholder="Enter system prompt..."
+        placeholder="Enter system instructions..."
+        spellCheck={false}
       />
-      <button className="btn-primary" onClick={save}>
-        {saved ? "✓ Saved" : "Save Prompt"}
+      <button className={`save-btn ${saved ? "saved" : ""}`} onClick={save}>
+        {saved ? "✓ saved" : "Save changes"}
       </button>
-    </div>
+    </>
   );
 }

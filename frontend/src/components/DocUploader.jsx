@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 export default function DocUploader() {
   const [docs, setDocs] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const inputRef = useRef();
 
-const fetchDocs = async () => {
-  try {
+  const fetchDocs = async () => {
     const res = await axios.get("http://localhost:8000/documents");
-    console.log("docs response:", res.data);  // add this
-    setDocs(res.data.docs ?? []);
-  } catch (e) {
-    console.error("fetchDocs failed:", e);
-    setDocs([]);  // prevent undefined crash
-  }
-};
+    setDocs(res.data.docs);
+  };
+
   useEffect(() => { fetchDocs(); }, []);
 
   const upload = async (e) => {
@@ -26,6 +22,7 @@ const fetchDocs = async () => {
     await axios.post("http://localhost:8000/upload", form);
     await fetchDocs();
     setUploading(false);
+    e.target.value = "";
   };
 
   const remove = async (docId) => {
@@ -34,25 +31,30 @@ const fetchDocs = async () => {
   };
 
   return (
-    <div>
-      <h2>Knowledge Base</h2>
-      <label className="file-label">
-        {uploading ? "Uploading..." : "Click to upload PDF or TXT"}
-        <input type="file" accept=".pdf,.txt" onChange={upload} />
-      </label>
-      <ul className="doc-list">
-        {docs.length === 0 && (
-          <li style={{ color: "#666" }}>No documents uploaded</li>
+    <>
+      <div className="panel-title">Knowledge Base</div>
+      <div className="doc-list">
+        {docs.length === 0 ? (
+          <div className="empty-kb">No documents uploaded.<br />Add a file to enable RAG.</div>
+        ) : (
+          docs.map((doc) => (
+            <div key={doc} className="doc-item">
+              <span className="doc-name">{doc}</span>
+              <button className="doc-del" onClick={() => remove(doc)}>✕</button>
+            </div>
+          ))
         )}
-        {docs.map((doc) => (
-          <li key={doc}>
-            <span>📄 {doc}</span>
-            <button className="btn-small" onClick={() => remove(doc)}>
-              ✕
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".pdf,.txt"
+        onChange={upload}
+        style={{ display: "none" }}
+      />
+      <button className="upload-btn" onClick={() => inputRef.current.click()}>
+        {uploading ? "Processing..." : "↑  Upload file"}
+      </button>
+    </>
   );
 }

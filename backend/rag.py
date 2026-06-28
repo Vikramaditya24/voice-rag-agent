@@ -8,7 +8,8 @@ from pypdf import PdfReader
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # ChromaDB persisted locally
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+BASE_DIR = Path(__file__).parent
+chroma_client = chromadb.PersistentClient(path=str(BASE_DIR / "chroma_db"))
 collection = chroma_client.get_or_create_collection(name="knowledge_base")
 
 
@@ -58,7 +59,7 @@ def ingest(file_path: str, doc_id: str) -> int:
     return len(chunks)
 
 
-def retrieve(query: str, top_k: int = 3) -> str:
+def retrieve(query: str, top_k: int = 5) -> str:
     """
     Embed the query, find top_k similar chunks, return as a single string.
     """
@@ -74,6 +75,11 @@ def retrieve(query: str, top_k: int = 3) -> str:
     chunks = results["documents"][0]
     return "\n\n---\n\n".join(chunks)
 
+def retrieve_all() -> str:
+    if collection.count() == 0:
+        return ""
+    all_items = collection.get()
+    return "\n\n---\n\n".join(all_items["documents"])
 
 def list_docs() -> list[str]:
     """Return unique doc_ids currently in the KB."""

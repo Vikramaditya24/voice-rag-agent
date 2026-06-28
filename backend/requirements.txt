@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-multipart
+livekit-agents
+livekit-plugins-deepgram
+livekit-plugins-groq
+livekit-plugins-cartesia
+livekit-plugins-silero
+livekit-api
+chromadb
+sentence-transformers
+pypdf
+python-dotenv
+groq

@@ -21,10 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = Path("./uploads")
+BASE_DIR = Path(__file__).parent
+UPLOAD_DIR = BASE_DIR / "uploads"
 UPLOAD_DIR.mkdir(exist_ok=True)
-
-CONFIG_FILE = Path("./config.json")
+CONFIG_FILE = BASE_DIR / "config.json"
 
 
 def load_config():
