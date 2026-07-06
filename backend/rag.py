@@ -72,7 +72,7 @@ def retrieve(query: str, top_k: int = 5) -> str:
         n_results=min(top_k, collection.count())
     )
 
-    chunks = results["documents"][0]
+    chunks = [c for c in results["documents"][0] if c is not None]
     return "\n\n---\n\n".join(chunks)
 
 def retrieve_all() -> str:

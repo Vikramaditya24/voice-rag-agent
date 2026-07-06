@@ -5,7 +5,7 @@ import CallControls from "./components/CallControls";
 import Terminal from "./components/Terminal";
 import "@livekit/components-styles";
 import "./App.css";
-
+import axios from "axios";
 export default function App() {
   const [token, setToken] = useState(null);
   const [serverUrl, setServerUrl] = useState(null);
@@ -13,17 +13,16 @@ export default function App() {
   const [live, setLive] = useState(false);
   const [error, setError] = useState(null);
 
-  const startCall = async () => {
+
+
+const startCall = async () => {
   try {
-    const res = await fetch("http://localhost:8000/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ room: "voice-room", identity: "user" }),
+    const res = await axios.post("http://localhost:8000/token", {
+      room: "voice-room",
+      identity: "user",
     });
-    if (!res.ok) throw new Error("Backend unreachable");
-    const data = await res.json();
-    setToken(data.token);
-    setServerUrl(data.url);
+    setToken(res.data.token);
+    setServerUrl(res.data.url);
   } catch (e) {
     setError("Could not connect. Is the backend running?");
     setTimeout(() => setError(null), 4000);

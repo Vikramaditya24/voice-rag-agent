@@ -81,6 +81,11 @@ def remove_doc(doc_id: str):
     success = delete_doc(doc_id)
     if not success:
         raise HTTPException(404, "Doc not found")
+    # Clean up uploaded file
+    for f in UPLOAD_DIR.iterdir():
+        if f.stem.startswith(doc_id) or doc_id in f.stem:
+            f.unlink(missing_ok=True)
+            break
     return {"status": "deleted"}
 
 
