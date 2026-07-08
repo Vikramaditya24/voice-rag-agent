@@ -1,8 +1,8 @@
-Got it. Here's the corrected README:
 
----
 
-```markdown
+
+
+```
 # NeuroDrift Voice Agent
 
 A real-time voice AI agent with RAG over uploaded documents. Built with LiveKit (WebRTC), Deepgram (STT), Groq (LLM), Cartesia (TTS), and ChromaDB (vector store).
@@ -11,9 +11,9 @@ A real-time voice AI agent with RAG over uploaded documents. Built with LiveKit 
 
 ## Architecture
 
-```
+
 User speaks → LiveKit (WebRTC) → Deepgram STT → Groq LLM + RAG context → Cartesia TTS → User hears
-```
+
 
 **RAG pipeline:** Uploaded documents are chunked, embedded via `sentence-transformers`, and stored in ChromaDB. At session start, the full knowledge base is injected into the agent's system prompt so every response is grounded in uploaded content.
 
@@ -49,7 +49,7 @@ User speaks → LiveKit (WebRTC) → Deepgram STT → Groq LLM + RAG context →
 ```bash
 git clone https://github.com/Vikramaditya24/voice-rag-agent
 cd voice-rag-agent
-```
+
 
 ### 2. Backend
 
@@ -64,7 +64,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 pip install fastapi uvicorn python-multipart livekit-agents livekit-plugins-deepgram livekit-plugins-groq livekit-plugins-cartesia livekit-api chromadb sentence-transformers pypdf python-dotenv groq
-```
+
 
 ### 3. Backend environment variables
 
@@ -77,20 +77,20 @@ LIVEKIT_API_SECRET=your_livekit_api_secret
 DEEPGRAM_API_KEY=your_deepgram_key
 GROQ_API_KEY=your_groq_key
 CARTESIA_API_KEY=your_cartesia_key
-```
+
 
 ### 4. Frontend
 
 ```bash
 cd frontend
 npm install
-```
+
 
 Create `frontend/.env`:
 
 ```env
 VITE_LIVEKIT_URL=wss://your-project.livekit.cloud
-```
+
 
 ---
 
@@ -105,7 +105,7 @@ cd backend
 venv\Scripts\activate        # Windows
 # source venv/bin/activate   # Mac/Linux
 uvicorn main:app --reload --port 8000
-```
+
 
 ### Terminal 2 — LiveKit agent worker
 
@@ -113,14 +113,14 @@ uvicorn main:app --reload --port 8000
 cd backend
 venv\Scripts\activate
 python agent.py dev
-```
+
 
 ### Terminal 3 — Frontend
 
 ```bash
 cd frontend
 npm run dev
-```
+
 
 Open [http://localhost:5173](http://localhost:5173)
 
@@ -150,8 +150,8 @@ No local LiveKit installation needed.
 
 ## How RAG works
 
-1. On upload: document is chunked (1000 chars, 100 char overlap) → embedded with `sentence-transformers` → stored in ChromaDB
-2. On call start: full knowledge base is retrieved and injected into the agent's system prompt
+1. On upload: document is chunked (500 chars, 50 char overlap) → embedded with `sentence-transformers` → stored in ChromaDB
+2. On call start: the full knowledge base is retrieved and injected into the agent's system prompt
 3. LLM receives: system prompt + KB context + conversation history
 4. Agent answers grounded in document content, speaks via Cartesia TTS
 
@@ -171,7 +171,7 @@ No local LiveKit installation needed.
 
 ## Project structure
 
-```
+
 neurodrift-voice-agent/
 ├── backend/
 │   ├── agent.py          # LiveKit agent worker — STT → RAG → LLM → TTS
