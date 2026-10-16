@@ -11,9 +11,7 @@ export default function Terminal({ messages }) {
 
   return (
     <>
-      <div className="terminal-bar">
-        <span className="terminal-bar-label">Transcript</span>
-      </div>
+    
       <div className="terminal-body" ref={bodyRef}>
         {messages.length === 0 ? (
           <div className="t-empty">▸ waiting for conversation...</div>

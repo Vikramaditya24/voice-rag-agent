@@ -32,7 +32,7 @@ export default function DocUploader() {
 
   return (
     <>
-      <div className="panel-title">Knowledge Base</div>
+     
       <div className="doc-list">
         {docs.length === 0 ? (
           <div className="empty-kb">No documents uploaded.<br />Add a file to enable RAG.</div>

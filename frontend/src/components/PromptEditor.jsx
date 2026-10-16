@@ -17,7 +17,7 @@ export default function PromptEditor() {
 
   return (
     <>
-      <div className="panel-title">System Prompt</div>
+     
       <textarea
         className="prompt-textarea"
         value={prompt}
